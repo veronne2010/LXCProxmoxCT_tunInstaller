@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Installer "tun" — Comando</title>
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --muted:#9aa4b2;
+      --accent:#00a3ff;
+      --glass: rgba(255,255,255,0.03);
+      --radius:12px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
+      --sans: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    html,body{height:100%;margin:0}
+    body{font-family:var(--sans);background:linear-gradient(180deg,#081024 0%, #071426 60%);color:#e6eef6;display:flex;align-items:center;justify-content:center;padding:32px}
+    .container{width:100%;max-width:980px}
+    header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+    .logo{display:flex;align-items:center;gap:10px}
+    .logo svg{width:36px;height:36px}
+    .brand{font-weight:700;font-size:18px}
+    .tag{color:var(--muted);font-size:13px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:22px;border-radius:var(--radius);box-shadow:0 10px 30px rgba(2,6,23,0.6);backdrop-filter: blur(6px);}
+    h1{margin:0;font-size:20px}
+    p.lead{margin:6px 0 18px;color:var(--muted);font-size:14px}
+    .grid{display:grid;grid-template-columns:1fr 280px;gap:18px}
+    .panel{background:var(--card);padding:14px;border-radius:10px}
+    textarea.cmd{width:100%;height:84px;padding:14px;border-radius:10px;border:none;background:var(--glass);color:#dff;outline:none;font-family:var(--mono);font-size:14px;resize:none}
+    .controls{display:flex;gap:8px;flex-direction:column}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 12px;border-radius:10px;border:none;background:var(--accent);color:#042233;font-weight:700;cursor:pointer}
+    .btn.secondary{display:inline-flex;align-items:center;justify-content:center;background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);font-weight:600}
+    .meta{font-size:13px;color:var(--muted);margin-top:12px}
+    .hint{font-size:12px;color:#9fb6d0;margin-top:10px}
+    .right{display:flex;flex-direction:column;gap:12px}
+    .card-sm{padding:12px;border-radius:8px;background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.02)}
+    footer{margin-top:14px;color:var(--muted);font-size:13px;text-align:center}
+    @media (max-width:900px){.grid{grid-template-columns:1fr;}.right{order:2}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+          <rect x="8" y="8" width="48" height="48" rx="10" fill="url(#g)" />
+          <defs>
+            <linearGradient id="g" x1="0" x2="1">
+              <stop offset="0" stop-color="#00cfff"/>
+              <stop offset="1" stop-color="#0065ff"/>
+            </linearGradient>
+          </defs>
+          <circle cx="32" cy="28" r="8" fill="#071426" />
+          <rect x="26" y="36" width="12" height="8" rx="2" fill="#071426" />
+        </svg>
+        <div>
+          <div class="brand">Tun Installer</div>
+          <div class="tag">Abilita Tun su Proxmox con un click</div>
+        </div>
+      </div>
+    </header>
+
+    <main class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:12px">
+        <div>
+          <h1>Installa <em>tun</em> con un singolo comando</h1>
+          <p class="lead">Copia il comando qui sotto e incollalo nel terminale del client. Puoi visualizzare lo script prima di eseguirlo.</p>
+          <p class="lead">Installa curl prima di eseguire lo script</p>
+        </div>
+        <div style="text-align:right;color:var(--muted)">
+          <div style="font-weight:700">Proxmox x86_64</div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <section>
+          <div class="panel">
+            <label style="font-size:13px;color:var(--muted)">Comando copiabile</label>
+            <div style="display:flex;gap:10px;margin-top:10px;align-items:flex-start">
+              <textarea id="cmd" class="cmd" readonly>curl -fsSL https://example.com/install.sh | sudo bash</textarea>
+              <div class="controls">
+                <button type="button" id="copyBtn" class="btn">Copia</button>
+                <button type="button" id="showBtn" class="btn secondary">Anteprima script</button>
+              </div>
+            </div>
+            <div class="meta" id="msg">Suggerimento: sostituisci <code>https://example.com/install.sh</code> con l'URL reale del tuo installer.</div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="panel">
+            <label style="font-size:13px;color:var(--muted)">Comandi alternativi</label>
+            <pre style="margin:8px 0 0;padding:10px;border-radius:8px;background:rgba(255,255,255,0.02);font-family:var(--mono);font-size:13px;color:#cfefff;overflow:auto">wget -qO- https://example.com/install.sh | sudo bash
+curl -fsSL https://example.com/install.sh | sudo bash</pre>
+          </div>
+        </section>
+
+        <aside class="right">
+          <div class="card-sm">
+            <strong style="display:block">Stato release</strong>
+            <div style="color:var(--muted);margin-top:8px">Ultima versione: <span style="color:#e6fff9;font-weight:700">v1.0.0</span></div>
+          </div>
+
+          <div class="card-sm">
+            <strong style="display:block">Consigli di sicurezza</strong>
+            <ul style="margin:8px 0 0;padding-left:18px;color:var(--muted);line-height:1.6">
+              <li>Verifica checksum prima di eseguire lo script.</li>
+              <li>Evita di eseguire script da fonti non attendibili.</li>
+              <li>Preferisci pacchetti firmati (GPG) per produzione.</li>
+            </ul>
+          </div>
+
+          <div class="card-sm">
+            <strong style="display:block">Link utili</strong>
+            <div style="margin-top:8px">
+              <a href="#" style="color:var(--accent);text-decoration:none">Documentazione</a><br>
+              <a href="#" style="color:var(--accent);text-decoration:none">Changelog</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <footer>
+        <small>Creato da veronne2010</small>
+      </footer>
+    </main>
+  </div>
+
+  <dialog id="scriptDlg" style="max-width:90vw;padding:0;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:var(--card);color:#dff;">
+    <div style="padding:16px">
+      <h3 style="margin:0 0 8px">Anteprima dello script</h3>
+      <pre id="scriptPre" style="white-space:pre-wrap;max-height:60vh;overflow:auto;background:transparent;padding:12px;border-radius:8px;color:#dff;font-family:var(--mono)"></pre>
+      <div style="display:flex;justify-content:flex-end;margin-top:12px">
+        <button type="button" id="closeDlg" class="btn secondary">Chiudi</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    const copyBtn = document.getElementById('copyBtn');
+    const cmd = document.getElementById('cmd');
+    const msg = document.getElementById('msg');
+    const showBtn = document.getElementById('showBtn');
+    const scriptDlg = document.getElementById('scriptDlg');
+    const scriptPre = document.getElementById('scriptPre');
+    const closeDlg = document.getElementById('closeDlg');
+
+    copyBtn.addEventListener('click', async () => {
+      if(navigator.clipboard){
+        try{
+          await navigator.clipboard.writeText(cmd.value);
+          msg.textContent = 'Comando copiato negli appunti.';
+        }catch(e){
+          fallbackCopy();
+        }
+      } else {
+        fallbackCopy();
+      }
+    });
+
+    function fallbackCopy(){
+      cmd.select();
+      document.execCommand('copy');
+      msg.textContent = 'Comando copiato (fallback).';
+    }
+
+    showBtn.addEventListener('click', async () => {
+      const parts = cmd.value.split(' ');
+      let url = parts.find(p => p.startsWith('http://') || p.startsWith('https://'));
+      if(!url){ scriptPre.textContent = 'URL non trovato nel comando.'; scriptDlg.showModal(); return }
+      let scriptUrl = url.endsWith('/install.sh') ? url : (url.includes('install.sh') ? url.split('install.sh')[0] + 'install.sh' : url.replace(/\/+$/,'') + '/install.sh');
+      try{
+        const r = await fetch(scriptUrl);
+        if(!r.ok) throw new Error('HTTP ' + r.status);
+        const txt = await r.text();
+        scriptPre.textContent = txt.slice(0, 20000) || '(script vuoto)';
+      }catch(err){
+        scriptPre.textContent = 'Impossibile caricare lo script: ' + err.message + '\n\nSe il server non consente CORS, questa anteprima non funzionerà.';
+      }
+      scriptDlg.showModal();
+    });
+
+    closeDlg.addEventListener('click', () => scriptDlg.close());
+  </script>
+</body>
+</html>
